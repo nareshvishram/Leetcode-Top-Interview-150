@@ -2,22 +2,24 @@ class Solution {
     public int trap(int[] height) {
         // TC. O(N)
         // space 2*O(N)
-        int n=height.length;
-        int left[]=new int[n];
-        int[] right=new int[n];
-        int max=Integer.MIN_VALUE;
-        for(int i=0;i<n;i++){
-            left[i]=Math.max(max,height[i]);
-            max=left[i];
-        }
-        max=Integer.MIN_VALUE;
-        for(int i=n-1;i>=0;i--){
-            right[i]=Math.max(max,height[i]);
-            max=right[i];
-        }
-        int ans=0;
-        for(int i=0;i<n;i++){
-            ans+=Math.min(left[i],right[i])-height[i];
+        int n=height.length,ans=0;
+        int l=0,r=n-1,lmax=0,rmax=0;
+        while(l<r){
+            if(height[l]<height[r]){
+                // go to left
+                if(height[l]>lmax)
+                    lmax=height[l];
+                else
+                    ans+=lmax-height[l];
+                l++;
+            }else{
+                //go to right
+                if(height[r]>rmax)
+                    rmax=height[r];
+                else
+                    ans+=rmax-height[r];
+                r--;
+            }
         }
         return ans;
     }
